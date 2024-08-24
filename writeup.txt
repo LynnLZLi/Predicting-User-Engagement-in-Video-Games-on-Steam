@@ -1,0 +1,58 @@
+Writeup for Assignment 1: Video Game Recommender Systems
+
+Part 1: Time Played Prediction
+
+Objective: 
+
+To predict the log-transformed hours a user is likely to spend playing a game.
+
+Methodology:
+
+Implemented a bias-based collaborative filtering model.
+Model aims to predict a user's interaction with a game, focusing on the time played.
+
+Data Processing:
+
+Used the dataset train.json.gz for model training.
+Split the dataset into training and validation subsets, with a predefined ratio to balance training and testing.
+
+Model Details:
+
+Computed a global average of hours played from the training data to serve as the baseline.
+Implemented user and game biases. These biases represent individual deviations from the global average.
+Applied iterative parameter updates to minimize the mean squared error (MSE). This approach helps in adjusting biases towards more accurate predictions.
+Set the regularization parameter (lambda_reg) to 4.291, aiming to achieve a balance between overfitting and underfitting.
+The prediction for each (user, game) pair is calculated as the sum of the global average hours, user bias, and game bias.
+
+Results and Output:
+
+Generated a CSV file named predictions_Hours.csv containing the predicted hours.
+This file includes predictions for each (user, game) pair based on our model.
+
+
+Part 2: Would Play Prediction
+
+Objective: To predict whether a user would play a specific game.
+
+Methodology:
+
+Combined Bayesian Personalized Ranking (BPR) with a popularity-based approach.
+The model aims to predict a user's preference for a game, considering both personalized preferences and general popularity.
+
+Data Processing:
+
+Utilized the full dataset for the training of the BPR model.
+Generated negative samples by pairing users with games they haven't played to balance the dataset.
+Prepared validation data by including both played and not-played game instances.
+
+Model Details:
+
+BPR Model: Trained using the implicit library, setting factors to 5 to capture the underlying patterns in user-game interactions.
+Popularity Model: Identified the most popular games based on play count, assuming higher popularity indicates a higher likelihood of being played.
+The final prediction combines the BPR score and the game's popularity. The BPR score represents the likelihood of preference based on user-game interaction history, while popularity serves as a general indicator of a game's appeal.
+
+Results and Output:
+
+Created predictions_Played.csv containing predictions on whether a user would play a particular game.
+Used an adjusted threshold for the BPR score to decide the final prediction, considering both BPR and popularity.
+
